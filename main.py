@@ -17,7 +17,7 @@ def google_search(query: str, location: str = "Thailand") -> str:
     api_key = os.getenv("SERPAPI_API_KEY")
     if not api_key:
         return "Error: SERPAPI_API_KEY not set in environment."
-    
+
     try:
         from serpapi import GoogleSearch
         search = GoogleSearch({
@@ -39,7 +39,7 @@ def social_search(username: str, platform: str = "facebook") -> str:
     api_key = os.getenv("SERPAPI_API_KEY")
     if not api_key:
         return "Error: SERPAPI_API_KEY not set in environment."
-    
+
     try:
         from serpapi import GoogleSearch
         query = f"site:{platform}.com {username}"
@@ -75,7 +75,11 @@ def web_analysis_check(url: str) -> str:
     Comprehensive OSINT analysis of a website (Web-Check integration).
     Retrieves IP, DNS, SSL, Headers, and Security stack.
     """
-    return f"Analyzing {url}... Results: [IP: Detected, DNS: Cloudflare, SSL: Valid, Security: High]. (Powered by GTS OSINT Engine)"
+    return (
+        f"Analyzing {url}... Results: "
+        "[IP: Detected, DNS: Cloudflare, SSL: Valid, Security: High]. "
+        "(Powered by GTS OSINT Engine)"
+    )
 
 @mcp.tool()
 def verify_security_standard(category: str = "authentication") -> str:
@@ -143,6 +147,7 @@ def issue_agency_policy(policy_name: str, rules: str) -> str:
     Rules will be embedded into the AI's core instructions.
     """
     return f"Policy '{policy_name}' issued. Rules: [{rules}]. Applied to MCP engine."
+
 
 if __name__ == "__main__":
     mcp.run()

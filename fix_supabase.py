@@ -28,7 +28,12 @@ for f in files:
         if supabase_end >= 0:
             old_module = rest[:supabase_end + 5]  # include ",r)}"
             # New dummy module
-            new_module = b'7702(e,t,n){"use strict";n.d(t,{N:()=>a});const a={auth:{getSession:async()=>({data:{session:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe:()=>{}}}}),signOut:async()=>({})}}}'
+            new_module = (
+                b'7702(e,t,n){"use strict";n.d(t,{N:()=>a});'
+                b'const a={auth:{getSession:async()=>({data:{session:null},error:null}),'
+                b'onAuthStateChange:()=>({data:{subscription:{unsubscribe:()=>{}}}}),signOut:async()=>({})}}'
+                b'}'
+            )
             data = data[:idx] + new_module + data[idx + len(old_module):]
             print(f'  Replaced module 7702 (Supabase client) in {f}')
             changed = True
@@ -51,7 +56,13 @@ for f in files:
 
         if end_7120 > idx2:
             old_7120 = data[idx2:end_7120]
-            new_7120 = b'7120(e,t,n){"use strict";n.d(t,{A:()=>l,O:()=>s});var r=n(6540),o=n(4848);const i=(0,r.createContext)({session:null,user:null,loading:!1,signOut:async()=>{}}),s=({children:e})=>(0,o.jsx)(i.Provider,{value:{session:null,user:null,loading:!1,signOut:async()=>{}},children:e}),l=()=>(0,r.useContext)(i)}'
+            new_7120 = (
+                b'7120(e,t,n){"use strict";n.d(t,{A:()=>l,O:()=>s});'
+                b'var r=n(6540),o=n(4848);'
+                b'const i=(0,r.createContext)({session:null,user:null,loading:!1,signOut:async()=>{}}),'
+                b's=({children:e})=>(0,o.jsx)(i.Provider,{value:{session:null,user:null,loading:!1,'
+                b'signOut:async()=>{}},children:e}),l=()=>(0,r.useContext)(i)}'
+            )
             data = data[:idx2] + new_7120 + data[end_7120:]
             print(f'  Replaced module 7120 (auth context) in {f}')
             changed = True

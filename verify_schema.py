@@ -15,4 +15,3 @@ try:
     print(res)
 except Exception as e:
     print(f"Failed to query profiles: {e}")
-

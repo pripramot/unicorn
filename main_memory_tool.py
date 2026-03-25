@@ -1,3 +1,6 @@
+from main import mcp
+
+
 @mcp.tool()
 def log_operational_memory(officer: str, role: str, project_phase: str, summary: str) -> str:
     """
