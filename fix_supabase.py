@@ -1,11 +1,13 @@
 import os
+import re
 
-files = [
+# === Phase 1: Replace shared Supabase auth modules in main bundles ===
+main_bundles = [
     'assets/js/main.acf45739.js',
     'en/assets/js/main.57a7a0ec.js',
 ]
 
-for f in files:
+for f in main_bundles:
     if not os.path.exists(f):
         print(f'SKIP: {f}')
         continue
@@ -15,19 +17,13 @@ for f in files:
     changed = False
 
     # === Replace module 7702 (Supabase client) ===
-    # Find the module boundaries
     marker_start = b'7702(e,t,n){"use strict"'
     idx = data.find(marker_start)
     if idx >= 0:
-        # Find the end of module 7702 - it ends right before },1513 or the next module
-        # The module pattern is: 7702(e,t,n){...},NEXT_MODULE
-        # Find the next module start after 7702
         rest = data[idx:]
-        # Find ",r)}" which ends the supabase createClient call, then the next module
         supabase_end = rest.find(b'",r)}')
         if supabase_end >= 0:
-            old_module = rest[:supabase_end + 5]  # include ",r)}"
-            # New dummy module
+            old_module = rest[:supabase_end + 5]
             new_module = b'7702(e,t,n){"use strict";n.d(t,{N:()=>a});const a={auth:{getSession:async()=>({data:{session:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe:()=>{}}}}),signOut:async()=>({})}}}'
             data = data[:idx] + new_module + data[idx + len(old_module):]
             print(f'  Replaced module 7702 (Supabase client) in {f}')
@@ -41,11 +37,9 @@ for f in files:
     marker_7120 = b'7120(e,t,n){"use strict"'
     idx2 = data.find(marker_7120)
     if idx2 >= 0:
-        # module 7120 ends right before module 7702
         marker_7702 = b',7702(e,t,n){"use strict"'
         end_7120 = data.find(marker_7702, idx2)
         if end_7120 < 0:
-            # Try without comma prefix
             marker_7702 = b'7702(e,t,n){"use strict"'
             end_7120 = data.find(marker_7702, idx2)
 
@@ -65,5 +59,82 @@ for f in files:
             fh.write(data)
         print(f'  SAVED: {f}')
     print()
+
+# === Phase 2: Replace hardcoded createClient calls in page chunk bundles ===
+# These chunks contain direct createClient(url, key) calls with hardcoded credentials.
+SUPABASE_URL = 'https://lpaqjhrjuokvhsdegynn.supabase.co'
+JWT_TOKEN = (
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+    '.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxwYXFqaHJqdW9rdmhzZGVneW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ2NjIxMzgsImV4cCI6MjA4MDIzODEzOH0'
+    '.VtWNvXB8mMhOeg9GOwd3s6MjwxDjoMbS5cOW4wLe7WQ'
+)
+
+# Minimal stub for components using: auth, from, channel, removeChannel
+SUPABASE_STUB = (
+    '{auth:{getSession:async()=>({data:{session:null},error:null}),'
+    'onAuthStateChange:()=>({data:{subscription:{unsubscribe:()=>{}}}}),'
+    'signOut:async()=>({}),'
+    'signInWithPassword:async()=>({data:null,error:{message:"Not configured"}})},'
+    'from:()=>({select:()=>({eq:()=>Promise.resolve({data:[],error:null}),'
+    'order:()=>Promise.resolve({data:[],error:null}),'
+    'limit:()=>Promise.resolve({data:[],error:null})}),'
+    'insert:()=>Promise.resolve({data:null,error:{message:"Not configured"}}),'
+    'update:()=>Promise.resolve({data:null,error:{message:"Not configured"}}),'
+    'delete:()=>Promise.resolve({data:null,error:{message:"Not configured"}})}),'
+    'channel:()=>{const ch={on:function(){return this},subscribe:function(){return this},'
+    'unsubscribe:function(){}};return ch},'
+    'removeChannel:()=>{}}'
+)
+
+CRED_PATTERN = re.compile(
+    r'\(0,\w+\.UU\)\("' + re.escape(SUPABASE_URL) + r'","' + re.escape(JWT_TOKEN) + r'"\)'
+)
+
+chunk_files = [
+    'assets/js/37acbf14.a65388a4.js',
+    'assets/js/81394e55.3781a275.js',
+    'assets/js/25626d15.468afa10.js',
+    'en/assets/js/37acbf14.a65388a4.js',
+    'en/assets/js/81394e55.3781a275.js',
+    'en/assets/js/25626d15.468afa10.js',
+]
+
+for f in chunk_files:
+    if not os.path.exists(f):
+        print(f'SKIP: {f}')
+        continue
+    content = open(f, encoding='utf-8').read()
+    matches = list(CRED_PATTERN.finditer(content))
+    if not matches:
+        print(f'  No credentials in: {f}')
+        continue
+    new_content = CRED_PATTERN.sub(SUPABASE_STUB, content)
+    with open(f, 'w', encoding='utf-8') as fh:
+        fh.write(new_content)
+    print(f'  Replaced {len(matches)} credential(s) in {f}')
+print()
+
+# === Phase 3: Redact project URL from documentation pages ===
+PLACEHOLDER_URL = 'https://your-project-ref.supabase.co'
+doc_files = [
+    'docs/aceso/supabase-setup/index.html',
+    'en/docs/aceso/supabase-setup/index.html',
+    'assets/js/fe0df626.3ac7e93a.js',
+    'en/assets/js/fe0df626.adbe80ea.js',
+]
+
+for f in doc_files:
+    if not os.path.exists(f):
+        print(f'SKIP: {f}')
+        continue
+    content = open(f, encoding='utf-8').read()
+    if SUPABASE_URL not in content:
+        print(f'  No URL in: {f}')
+        continue
+    new_content = content.replace(SUPABASE_URL, PLACEHOLDER_URL)
+    with open(f, 'w', encoding='utf-8') as fh:
+        fh.write(new_content)
+    print(f'  Redacted project URL in: {f}')
+print()
 
 print("Done!")
