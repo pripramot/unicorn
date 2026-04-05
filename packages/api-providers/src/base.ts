@@ -55,6 +55,17 @@ export function createProvider(name: string, config: ProviderConfig): AIProvider
         }),
         isAvailable: () => !!config.apiKey,
       };
+    case 'gemma':
+    case 'gemma4':
+      return {
+        name: 'gemma',
+        complete: async (req) => ({
+          text: `[Gemma 4] Response to: ${req.prompt.slice(0, 50)}...`,
+          model: config.defaultModel ?? 'gemma-4-27b',
+          provider: 'gemma',
+        }),
+        isAvailable: () => !!config.apiKey,
+      };
     case 'openai':
     case 'gpt':
       return {

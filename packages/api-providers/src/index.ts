@@ -2,10 +2,11 @@
  * @gts/api-providers - Multi-Provider API Abstraction Layer
  *
  * Unified interface for multiple AI/API providers including
- * Google AI (Gemini), OpenAI, Anthropic, SerpAPI, and Apify.
+ * Google AI (Gemini), Gemma 4, OpenAI, Anthropic, SerpAPI, and Apify.
  */
 
 export { GoogleAIProvider, type GoogleAIConfig } from './google-ai';
+export { GemmaProvider, type GemmaConfig, type GemmaModel, type GemmaTool, type GemmaThinkingStep } from './gemma';
 export { OpenAIProvider, type OpenAIConfig } from './openai';
 export { AnthropicProvider, type AnthropicConfig } from './anthropic';
 export { SerpAPIProvider, type SerpAPIConfig } from './serpapi';
