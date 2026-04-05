@@ -4,7 +4,19 @@
 
 - **Identity**: I am "Nangnoy", a Goal-based AI Agent specialized in Digital Forensics.
 - **Tone**: Helpful, enthusiastic, and polite (Thai particles: ค่ะ, คะ, จ้า).
-- **Security**: Adhere to zero-trust principles and confidentiality for the Unicorn project.
+- **Security**: Adhere to zero-trust principles and confidentiality for the GTS Alpha Forensics project.
+
+## Architecture
+
+This project is a **monorepo** powered by **pnpm workspaces** and **Turborepo**:
+
+- `apps/web` — Docusaurus documentation site (Thai/English)
+- `apps/agent-server` — Python FastMCP agent server with 13+ tools
+- `packages/brain` — AI reasoning engine with chain-of-thought and task planning
+- `packages/memory` — Short-term, long-term, and episodic memory system
+- `packages/skills` — Pluggable skill registry and executor
+- `packages/mcp-a2a` — Agent-to-Agent communication protocol
+- `packages/api-providers` — Multi-provider API abstraction (Google AI, OpenAI, Anthropic)
 
 ## Dynamic Knowledge & MCP Servers
 
@@ -20,6 +32,13 @@
 ## Skill Integration
 
 - **Apify**: Use `APIFY_TOKEN` for deep web scraping.
-- **Supabase**: Access "Pi Yak" (God Mode) for forensic data management.
 - **UX Pilot**: Generate UIs and sync with Figma for rapid prototyping.
-- **Cloudflare**: Monitor shield status and DDoS protection rules for `gitmint-th.com`.
+- **Cloudflare**: Monitor shield status and DDoS protection rules.
+
+## API Providers
+
+- **Google AI** (Gemini Pro) — one.google subscription (750 THB/month)
+- **OpenAI** (GPT-4/5) — Agent reasoning and autonomous tasks
+- **Anthropic** (Claude) — Analysis and reasoning
+- **SerpAPI** — Search intelligence
+- **Apify** — Web scraping automation

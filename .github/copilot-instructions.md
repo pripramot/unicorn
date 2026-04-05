@@ -1,49 +1,55 @@
-# Repository Instructions for Copilot (Universal)
+# Repository Instructions for Copilot (GTS Alpha Forensics)
 
-This document instructs the AI agent to dynamically analyze the repository context before generating code.
+This is a **monorepo** powered by **pnpm workspaces** and **Turborepo**.
 
-## 1. Dynamic Context Discovery (REQUIRED)
-**Before answering any prompt, you MUST scan the repository root to identify the tech stack:**
+## 1. Tech Stack
 
-* **Identify Language & Framework:**
-    * Check `package.json` (Node.js/JS/TS).
-    * Check `requirements.txt`, `pyproject.toml`, or `Pipfile` (Python).
-    * Check `go.mod` (Go).
-    * Check `pom.xml` or `build.gradle` (Java).
-* **Identify Key Libraries:** Look for major dependencies (e.g., React, FastAPI, Django, Pandas, Tailwind) in the config files above and align your code style with them.
+- **Monorepo**: pnpm workspaces + Turborepo
+- **Frontend**: Docusaurus v3.9.2 (TypeScript, React) in `apps/web/`
+- **Backend**: Python FastMCP agent server in `apps/agent-server/`
+- **Packages**: TypeScript packages in `packages/` (brain, memory, skills, mcp-a2a, api-providers)
 
-## 2. Universal Build & Validation Protocols
+## 2. Build & Validation
 
-**Infer the build command based on the detected files:**
+```bash
+# Install dependencies
+pnpm install
 
-* **Node.js/JS:**
-    * If `package-lock.json` exists -> Use `npm`.
-    * If `pnpm-lock.yaml` exists -> Use `pnpm`.
-    * **Standard Chain:** Install -> Lint -> Build -> Test.
-    * *Command:* `npm install && npm run lint && npm run build` (verify script names in `package.json` first).
+# Build all packages
+pnpm build
 
-* **Python:**
-    * Check for virtual environments (`venv`, `.venv`, `env`).
-    * **Standard Chain:** Install reqs -> Lint (flake8/pylint) -> Test (pytest).
-    * *Command:* `pip install -r requirements.txt && pytest`.
+# Lint all packages
+pnpm lint
 
-* **General Rule:**
-    * If a `Makefile` exists, read it to understand the exact build targets.
-    * **Always** validate that your generated code passes the project's existing linting rules.
+# Test all packages
+pnpm test
+```
 
-## 3. Project Layout & Architecture Navigation
+For the Python agent server:
+```bash
+cd apps/agent-server
+pip install -r requirements.txt
+python main.py
+```
 
-* **Map the Structure:**
-    * Locate the entry point (e.g., `src/index.js`, `main.py`, `src/main.ts`).
-    * Identify where business logic resides (often `src/services`, `lib/`, or `controllers/`).
-    * Identify where UI components reside (often `src/components`).
+## 3. Project Layout
 
-* **Follow Existing Patterns:**
-    * **Style Consistency:** Match the existing indentation, variable naming conventions (camelCase vs snake_case), and file structure.
-    * **Configuration:** Look for `.env.example` to understand required environment variables. Do not hardcode secrets.
+```
+apps/web/                    → Docusaurus site (pnpm build)
+apps/agent-server/           → Python FastMCP server (python main.py)
+packages/brain/              → AI reasoning & planning (TypeScript)
+packages/memory/             → Memory system (TypeScript)
+packages/skills/             → Skill registry (TypeScript)
+packages/mcp-a2a/            → Agent-to-Agent protocol (TypeScript)
+packages/api-providers/      → Multi-provider APIs (TypeScript)
+config/tsconfig/             → Shared TypeScript config
+config/eslint/               → Shared ESLint config
+```
 
 ## 4. Priority Files for Context
-**Read these files first to ground your responses:**
-1.  `README.md` (Project goals and manual setup instructions).
-2.  **Dependency Config** (`package.json`, `requirements.txt`, etc.).
-3.  **Linter Config** (`.eslintrc`, `.prettierrc`, `ruff.toml`) to ensure code compliance.
+1. `README.md` — Project overview and setup instructions
+2. `package.json` — Root workspace config
+3. `pnpm-workspace.yaml` — Workspace definitions
+4. `turbo.json` — Build pipeline config
+5. `.env.example` — Required environment variables
+6. `AGENTS.md` — AI agent configuration
