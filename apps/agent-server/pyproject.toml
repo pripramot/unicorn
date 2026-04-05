@@ -1,0 +1,30 @@
+[project]
+name = "gts-agent-server"
+version = "1.0.0"
+description = "🤖 GTS Brain Connector - MCP Agent Server for Digital Forensics"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+]
+search = [
+    "google-search-results>=2.4.0",
+]
+database = [
+    "supabase>=2.0.0",
+    "pg8000>=1.31.0",
+]
+
+[project.scripts]
+serve = "main:mcp.run"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
