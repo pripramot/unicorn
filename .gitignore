@@ -1,8 +1,13 @@
+# ============================================
+# GTS Alpha Forensics - .gitignore
+# ============================================
+
 # Environment & Secrets
 .env
 .env.*
 .env.local
 .env.production
+!.env.example
 
 # Python
 __pycache__/
@@ -15,6 +20,20 @@ env/
 *.egg-info/
 dist/
 build/
+
+# Node
+node_modules/
+.pnpm-store/
+
+# Turborepo
+.turbo/
+
+# Docusaurus
+apps/web/.docusaurus/
+apps/web/build/
+
+# TypeScript
+*.tsbuildinfo
 
 # OS
 .DS_Store
@@ -31,5 +50,6 @@ desktop.ini
 *.log
 npm-debug.log*
 
-# Node (if used later)
-node_modules/
+# Test coverage
+coverage/
+.nyc_output/

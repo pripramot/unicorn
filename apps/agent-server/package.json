@@ -1,0 +1,12 @@
+{
+  "name": "@gts/agent-server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "python main.py",
+    "build": "echo 'Python app - no build step'",
+    "test": "python -m pytest tests/ -v",
+    "lint": "echo 'Add ruff or flake8 for Python linting'",
+    "clean": "find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null; echo cleaned"
+  }
+}
