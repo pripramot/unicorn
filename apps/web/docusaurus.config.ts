@@ -11,11 +11,11 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://pripramot.github.io',
-  baseUrl: '/unicorn-presentations/',
+  url: process.env.NETLIFY ? (process.env.URL || 'https://gts-alpha-forensics.netlify.app') : 'https://pripramot.github.io',
+  baseUrl: process.env.NETLIFY ? '/' : '/unicorn/',
 
   organizationName: 'pripramot',
-  projectName: 'unicorn-presentations',
+  projectName: 'unicorn',
 
   onBrokenLinks: 'throw',
 
