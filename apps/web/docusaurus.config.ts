@@ -12,7 +12,7 @@ const config: Config = {
   },
 
   url: process.env.NETLIFY ? (process.env.URL || 'https://gts-alpha-forensics.netlify.app') : 'https://pripramot.github.io',
-  baseUrl: process.env.NETLIFY ? '/' : '/unicorn-presentations/',
+  baseUrl: process.env.NETLIFY ? '/' : '/unicorn/',
 
   organizationName: 'pripramot',
   projectName: 'unicorn',
