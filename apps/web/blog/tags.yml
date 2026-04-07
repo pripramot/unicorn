@@ -1,19 +1,24 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+forensics:
+  label: Forensics
+  permalink: /forensics
+  description: Digital forensics and evidence analysis
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+ai:
+  label: AI
+  permalink: /ai
+  description: Artificial intelligence and machine learning
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+announcement:
+  label: Announcement
+  permalink: /announcement
+  description: Project announcements and updates
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+security:
+  label: Security
+  permalink: /security
+  description: Cybersecurity and threat analysis
+
+osint:
+  label: OSINT
+  permalink: /osint
+  description: Open-source intelligence gathering

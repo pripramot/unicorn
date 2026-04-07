@@ -54,9 +54,3 @@ pnpm dev
 # Build all packages
 pnpm build
 ```
-
-## 🔒 Access Notice
-
-> ⚠️ **ระบบนี้อยู่ระหว่างการส่งมอบ — เฉพาะผู้ได้รับอนุญาตเท่านั้น**
->
-> This system is under delivery. Authorized access only.
