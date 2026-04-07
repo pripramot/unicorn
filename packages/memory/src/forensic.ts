@@ -11,6 +11,17 @@
  * All operations are timestamped for audit trail compliance.
  */
 
+/**
+ * Generate a unique ID with a prefix.
+ * Uses timestamp + high-entropy random for uniqueness.
+ */
+function generateId(prefix: string): string {
+  const ts = Date.now().toString(36);
+  const r1 = Math.random().toString(36).slice(2, 10);
+  const r2 = Math.random().toString(36).slice(2, 10);
+  return `${prefix}_${ts}_${r1}${r2}`;
+}
+
 // ─── Evidence Types ─────────────────────────────────────────
 
 export type EvidenceType =
@@ -110,7 +121,7 @@ export class ForensicMemory {
   createCase(title: string, description: string, investigator: string, tags: string[] = []): ForensicCase {
     const now = Date.now();
     const forensicCase: ForensicCase = {
-      id: `case_${now}_${Math.random().toString(36).slice(2, 8)}`,
+      id: generateId('case'),
       title,
       description,
       status: 'open',
@@ -183,7 +194,7 @@ export class ForensicMemory {
 
     const now = Date.now();
     const evidence: ForensicEvidence = {
-      id: `ev_${now}_${Math.random().toString(36).slice(2, 8)}`,
+      id: generateId('ev'),
       caseId,
       type,
       name,
@@ -269,7 +280,7 @@ export class ForensicMemory {
     if (!forensicCase) return undefined;
 
     const finding: ForensicFinding = {
-      id: `find_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      id: generateId('find'),
       title,
       description,
       severity,
