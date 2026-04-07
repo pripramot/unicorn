@@ -11,8 +11,8 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://pripramot.github.io',
-  baseUrl: '/unicorn/',
+  url: process.env.NETLIFY ? (process.env.URL || 'https://unicornlpr.netlify.app') : 'https://pripramot.github.io',
+  baseUrl: process.env.NETLIFY ? '/' : '/unicorn/',
 
   organizationName: 'pripramot',
   projectName: 'unicorn',
