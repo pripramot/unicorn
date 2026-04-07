@@ -2,7 +2,7 @@
 
 > AI-Powered Digital Forensics & Cybersecurity Platform
 
-[![CI](https://github.com/pripramot/unicorn-presentations/actions/workflows/ci.yml/badge.svg)](https://github.com/pripramot/unicorn-presentations/actions/workflows/ci.yml)
+[![CI](https://github.com/pripramot/unicorn/actions/workflows/ci.yml/badge.svg)](https://github.com/pripramot/unicorn/actions/workflows/ci.yml)
 
 ## 🔒 Access Notice
 
@@ -17,7 +17,7 @@ GTS Alpha Forensics is a comprehensive AI agent platform for digital forensics a
 ## 🏗️ Architecture
 
 ```
-unicorn-presentations/
+unicorn/
 ├── apps/
 │   ├── web/                    # 🌐 Docusaurus documentation site
 │   └── agent-server/           # 🤖 Python FastMCP agent server
