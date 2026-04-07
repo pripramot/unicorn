@@ -11,8 +11,8 @@ const config: Config = {
     v4: true,
   },
 
-  url: process.env.NETLIFY ? (process.env.URL || 'https://gts-alpha-forensics.netlify.app') : 'https://pripramot.github.io',
-  baseUrl: process.env.NETLIFY ? '/' : '/unicorn/',
+  url: 'https://pripramot.github.io',
+  baseUrl: '/unicorn/',
 
   organizationName: 'pripramot',
   projectName: 'unicorn',
@@ -35,7 +35,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/pripramot/unicorn-presentations/tree/main/apps/web/',
+            'https://github.com/pripramot/unicorn/tree/main/apps/web/',
         },
         blog: {
           showReadingTime: true,
@@ -44,7 +44,7 @@ const config: Config = {
             xslt: true,
           },
           editUrl:
-            'https://github.com/pripramot/unicorn-presentations/tree/main/apps/web/',
+            'https://github.com/pripramot/unicorn/tree/main/apps/web/',
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -60,14 +60,6 @@ const config: Config = {
     image: 'img/gts-social-card.jpg',
     colorMode: {
       respectPrefersColorScheme: true,
-    },
-    announcementBar: {
-      id: 'restricted_access',
-      content:
-        '🔒 ระบบนี้อยู่ระหว่างการส่งมอบ - เฉพาะผู้ได้รับอนุญาตเท่านั้น | This system is under delivery - Authorized access only',
-      backgroundColor: '#1a1a2e',
-      textColor: '#e94560',
-      isCloseable: false,
     },
     navbar: {
       title: 'GTS Alpha Forensics',
@@ -88,7 +80,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://github.com/pripramot/unicorn-presentations',
+          href: 'https://github.com/pripramot/unicorn',
           label: 'GitHub',
           position: 'right',
         },
@@ -132,7 +124,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/pripramot/unicorn-presentations',
+              href: 'https://github.com/pripramot/unicorn',
             },
           ],
         },
